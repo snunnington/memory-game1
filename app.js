@@ -18,9 +18,7 @@ console.log(cards);
 const pack = document.getElementById("card-pack");
 
 // declaring move let
-let moves = 0;
-let counter = document.querySelector(".moves");
-
+let cardFlipped = 0;
 // declare let for star icons
 const stars = document.querySelectorAll(".fa-star");
 
@@ -30,8 +28,7 @@ let matchedCard = document.getElementsByClassName("match");
  // stars list
  let starsList = document.querySelectorAll(".stars li");
 
-
-
+ 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -45,6 +42,55 @@ function shuffle(array) {
     }
 
     return array;
+}
+
+function newBoard(){
+	cards_flipped = 0;
+	var output = '';
+    memory_array.memory_tile_shuffle();
+	for(var i = 0; i < memory_array.length; i++){
+		output += '<div id="tile_'+i+'" onclick="memoryFlipTile(this,\''+memory_array[i]+'\')"></div>';
+	}
+	document.getElementById('memory_board').innerHTML = output;
+}
+function memoryFlipTile(card,val){
+	if(tile.innerHTML == "" && memory_values.length < 2){
+		tile.style.background = '#FFF';
+		tile.innerHTML = val;
+		if(memory_values.length == 0){
+			memory_values.push(val);
+			memory_card_ids.push(tile.id);
+		} else if(memory_values.length == 1){
+			memory_values.push(val);
+			memory_card_ids.push(tile.id);
+			if(memory_values[0] == memory_values[1]){
+				cards_flipped += 2;
+				// Clear both arrays
+				memory_values = [];
+            	memory_card_ids = [];
+				// Check to see if the whole board is cleared
+				if(tiles_flipped == memory_array.length){
+					alert("Board cleared... generating new board");
+					document.getElementById('memory_board').innerHTML = "";
+					newBoard();
+				}
+			} else {
+				function flip2Back(){
+				    // Flip the 2 tiles back over
+				    var card_1 = document.getElementById(memory_card_ids[0]);
+				    var card_2 = document.getElementById(memory_card_ids[1]);
+				    card_1.style.background = 'url(tile_bg.jpg) no-repeat';
+            	    card_1.innerHTML = "";
+				    card_2.style.background = 'url(tile_bg.jpg) no-repeat';
+            	    card_2.innerHTML = "";
+				    // Clear both arrays
+				    memory_values = [];
+            	    memory_card_ids = [];
+				}
+				setTimeout(flip2Back, 700);
+			}
+		}
+	}
 }
 
 

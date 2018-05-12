@@ -66,9 +66,16 @@ h1 {
 }
 
 .pack .card.open {
-    transform: rotateY(0);
+    transform: rotateY(180deg);
     background: #02b3e4;
     cursor: default;
+}
+
+.pack .card.close {
+    transform: rotateY(360deg);
+    transition: 0.2s;
+    transform-style: preserve-3d;
+    background: #2e3d49;
 }
 
 .pack .card.show {
